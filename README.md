@@ -4,6 +4,44 @@ Code and recorded experiments accompanying **Componentwise accurate endpoint res
 
 For each original edge, the code computes the effective resistance between its endpoints after that edge is removed. Each deletion is a separate query. Bridges return infinite resistance and a zero leverage-score complement. The manuscript and submission correspondence are maintained separately from this public repository.
 
+## Shared positive Schur reductions
+
+`code/joint_outage.py` adds `all_outages_joint(n, edges)`. It shares background
+networks among balanced groups of outage queries. Active query edges remain
+absent; a child adds sibling edges and positively eliminates vertices outside
+its own endpoints. The deterministic arithmetic work is
+`O(n + m + sum_i r_i^3)`, with the componentwise error bound proved in the
+manuscript. The original `all_outages` remains the independent-query baseline.
+
+Reproduce the added checks and figures with:
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/joint_experiments.py
+python code/joint_figures.py
+```
+
+The shared experiments reuse archived inputs and references, and write
+`results/joint_*.csv` and `results/joint_*.json`. They include 875 full-graph
+rational checks (3756 finite outages), 110 additional multigraphs (2310 exact
+kernel queries), 301 parallel-edge reference queries, the original 1684-query
+weight suite, 744 rank-sweep queries, and 313 finite IEEE outages. The largest
+relative errors in the three floating-point suites are below 1.23e-15. All
+reported errors satisfy their pathwise bounds. `joint_figures.py` writes two
+PDF figures and a table fragment to `figures/`; these generated files need not
+be tracked in the code repository.
+
+The 128-vertex ladder uses 782,008 kernel arithmetic operations with sharing,
+versus 43,856,872 for independent positive solves. Recorded complete-profile
+medians are approximately 0.0422 and 1.797 seconds. Both kernels use Python
+scalar arithmetic; these are implementation-specific measurements.
+
+Recursive Schur methods have prior art: Durfee et al., STOC 2017
+(DOI 10.1145/3055399.3055463), and the active-edge exclusion recursion in
+Felix Broberg's 2020 KTH thesis, *Prediction Assisted Fully Dynamic All-Pairs
+Effective Resistance*, Chapter 5. The accompanying manuscript analyzes the
+cubic deterministic specialization and its full working-precision error bound;
+it does not claim the first offline Schur recursion.
+
 ## Quick start
 
 Use Python 3.12. The core solver needs only the standard library:

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "parallel_multiplicities": [
+    2,
+    3,
+    7,
+    32,
+    257
+  ],
+  "exact_reference_queries": 301,
+  "max_relative_error": 2.0849256265559194e-16,
+  "description": "Power-of-two resistances; direct parallel-conductance oracle; pathwise and uniform exponent checks"
+}

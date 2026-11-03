@@ -1,0 +1,26 @@
+[
+  {
+    "suite": "accuracy",
+    "graphs": 100,
+    "queries": 1684,
+    "max_rho_error": 4.615322051264573e-16,
+    "max_delta_error": 5.346545020763078e-16,
+    "max_error_to_bound": 0.26902461010506
+  },
+  {
+    "suite": "rank",
+    "graphs": 20,
+    "queries": 744,
+    "max_rho_error": 1.199917378990889e-15,
+    "max_delta_error": 1.225151692261955e-15,
+    "max_error_to_bound": 0.21842809102209648
+  },
+  {
+    "suite": "pglib",
+    "graphs": 4,
+    "queries": 313,
+    "max_rho_error": 4.0064563495131146e-16,
+    "max_delta_error": 2.629294106007383e-16,
+    "max_error_to_bound": 0.1151277918489523
+  }
+]

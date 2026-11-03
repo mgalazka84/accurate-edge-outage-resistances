@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "graphs": 110,
+  "exact_finite_queries": 2310,
+  "seed": 1107503,
+  "description": "Uncompressed cyclic multigraphs; shuffled query order; independent rational nodal solves"
+}

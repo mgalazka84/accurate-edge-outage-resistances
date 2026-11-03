@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "exhaustive_connected_graphs": {
+    "2": 1,
+    "3": 4,
+    "4": 38,
+    "5": 728
+  },
+  "tested_graphs": 875,
+  "finite_outage_queries": 3756,
+  "disconnected_outages": 1278,
+  "max_relative_error": 3.570450969726465e-16,
+  "max_error_to_proven_bound": 0.25921947726459,
+  "long_cycle_edges": 10001,
+  "elapsed_seconds": 0.5133293950057123
+}
