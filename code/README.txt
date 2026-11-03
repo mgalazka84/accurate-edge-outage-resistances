@@ -95,8 +95,9 @@ in PROVENANCE.json. No runtime network access is needed. Each active branch uses
 r = x * tap, interpreting stored tap zero as one. All active x are positive and
 phase shifts zero in these cases; no active branch is dropped. The experiment
 uses the positive DC sensitivity Laplacian, not an AC model or operational data.
-The case data are CC BY 4.0 and retain original notices. This does not grant a
-license for this repository's original code, for which none has been selected.
+The case data are CC BY 4.0 and retain original notices. The original software and
+accompanying documentation are licensed under MIT; see the repository-root LICENSE.
+The files in data/pglib/ retain their upstream terms, which are not replaced by MIT.
 
 INTERPRETATION
 HRA factorization and 80-digit direct solves are accurate competitors. Ordinary

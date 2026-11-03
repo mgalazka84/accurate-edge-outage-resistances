@@ -76,4 +76,4 @@ Research materials revised in response to supplied comments on 3 November 2026. 
 
 An OpenAI language-model assistant supported implementation of the verification, experimental and plotting programs. The manuscript and cover letter describe the broader assistance in developing the research draft.
 
-No license has been selected for the original software in this repository. The copied PGLib case data retain their upstream attribution and **CC BY 4.0** license; `data/pglib/LICENSE` also describes the upstream licensing distinction. That upstream license does not license this repository's original solver code.
+The original software and accompanying documentation are licensed under the **MIT License**; see [`LICENSE`](LICENSE). The copied PGLib case data retain their upstream attribution and **CC BY 4.0** license. Third-party files in `data/pglib/` retain their upstream terms, documented in `data/pglib/LICENSE`; the repository-root MIT License does not replace those terms.
