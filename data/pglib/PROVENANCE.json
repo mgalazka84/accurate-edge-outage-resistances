@@ -9,5 +9,13 @@
     "pglib_opf_case57_ieee.m"
   ],
   "adaptation": "Active branches; r=x*tau, tau=1 for zero tap field; consecutive bus indices; no phase shifts in selected cases. Original branch resistance, charging and AC operating constraints are not modeled. No active branch is dropped.",
-  "interpretation": "Positive Laplacian of the DC phase-angle sensitivity model; not an AC contingency study or measured operational data."
+  "interpretation": "Positive Laplacian of the DC phase-angle sensitivity model; not an AC contingency study or measured operational data.",
+  "sha256": {
+    "pglib_opf_case118_ieee.m": "33f51108b5c089a38413ed17b298d2f877d33fdff05e4c6fee9008b052135877",
+    "pglib_opf_case14_ieee.m": "e3c90e459b6c9643fdca1ebcc3dfbc9b1d5cd6fb969f58ecd3a94eabc112dd67",
+    "pglib_opf_case30_ieee.m": "cad5fba08d1b84b79afb85ead0cc0b8cad78c65b3402a20f5a2284ad3a2e6859",
+    "pglib_opf_case57_ieee.m": "2d6f9b4e9a5a022a9ebdf0877e657c389192cf01bb112f3549dae1ceba7bbfd6",
+    "README.md": "c3efd819e0d0d38869608bec71f9744aa524119166be5683a67cdf89769920c8",
+    "LICENSE": "10afd94775505811a489d23b6bc6ac4c942866cbf4e9daea0c33ae965a7a8955"
+  }
 }
