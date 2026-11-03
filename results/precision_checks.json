@@ -1,0 +1,82 @@
+[
+  {
+    "case": "theta_s0_j0",
+    "relative_difference": 2.5e-160
+  },
+  {
+    "case": "theta_s8_j0",
+    "relative_difference": 9.785529239340267e-150
+  },
+  {
+    "case": "theta_s16_j0",
+    "relative_difference": 9.542882076843907e-149
+  },
+  {
+    "case": "theta_s32_j0",
+    "relative_difference": 4.060099374695198e-112
+  },
+  {
+    "case": "K4_s0_j0",
+    "relative_difference": 4e-159
+  },
+  {
+    "case": "K4_s8_j0",
+    "relative_difference": 2.648045132848917e-154
+  },
+  {
+    "case": "K4_s16_j0",
+    "relative_difference": 4.721931789879704e-138
+  },
+  {
+    "case": "K4_s32_j0",
+    "relative_difference": 2.9406946168873204e-103
+  },
+  {
+    "case": "K33_s0_j0",
+    "relative_difference": 1.9217081850533809e-159
+  },
+  {
+    "case": "K33_s8_j0",
+    "relative_difference": 1.6101990070565216e-147
+  },
+  {
+    "case": "K33_s16_j0",
+    "relative_difference": 1.5173560750851027e-158
+  },
+  {
+    "case": "K33_s32_j0",
+    "relative_difference": 3.657633784288231e-129
+  },
+  {
+    "case": "prism_s0_j0",
+    "relative_difference": 1.9963570127504554e-159
+  },
+  {
+    "case": "prism_s8_j0",
+    "relative_difference": 2.4765562992933247e-148
+  },
+  {
+    "case": "prism_s16_j0",
+    "relative_difference": 3.2131733500599516e-139
+  },
+  {
+    "case": "prism_s32_j0",
+    "relative_difference": 7.513366144052784e-114
+  },
+  {
+    "case": "Petersen_s0_j0",
+    "relative_difference": 7.318640822298897e-159
+  },
+  {
+    "case": "Petersen_s8_j0",
+    "relative_difference": 2.9828159740610855e-148
+  },
+  {
+    "case": "Petersen_s16_j0",
+    "relative_difference": 2.9790953193599057e-136
+  },
+  {
+    "case": "Petersen_s32_j0",
+    "relative_difference": 1.86049645689355e-108
+  }
+]

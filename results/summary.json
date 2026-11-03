@@ -1,0 +1,187 @@
+{
+  "0": {
+    "positive": {
+      "queries": 406,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 2.556757230577875e-16,
+      "median_finite": 6.196593625814827e-17
+    },
+    "full_positive": {
+      "queries": 406,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 4.469334936896696e-16,
+      "median_finite": 8.942801177315559e-17
+    },
+    "compressed_cholesky": {
+      "queries": 406,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 2.009677821558803e-15,
+      "median_finite": 2.8574699977488997e-16
+    },
+    "full_cholesky": {
+      "queries": 406,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 2.105473120055755e-14,
+      "median_finite": 1.4546720504164236e-15
+    },
+    "sherman_morrison": {
+      "queries": 406,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 1.2841563474118248e-14,
+      "median_finite": 7.77224136283489e-16
+    },
+    "sparse_update": {
+      "queries": 406,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 2.6143906769453682e-15,
+      "median_finite": 2.805082325002509e-16
+    }
+  },
+  "8": {
+    "positive": {
+      "queries": 442,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 4.615322051264573e-16,
+      "median_finite": 7.559283892218841e-17
+    },
+    "full_positive": {
+      "queries": 442,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 1.0658258954862767e-15,
+      "median_finite": 1.243180888453447e-16
+    },
+    "compressed_cholesky": {
+      "queries": 442,
+      "failed": 0,
+      "above_1e8": 177,
+      "max_finite": 0.0418393333216177,
+      "median_finite": 5.237610152572581e-10
+    },
+    "full_cholesky": {
+      "queries": 442,
+      "failed": 1,
+      "above_1e8": 339,
+      "max_finite": 1.0647239578863392,
+      "median_finite": 8.22693870270642e-06
+    },
+    "sherman_morrison": {
+      "queries": 442,
+      "failed": 0,
+      "above_1e8": 318,
+      "max_finite": 0.2744038230667997,
+      "median_finite": 1.5637073500457886e-06
+    },
+    "sparse_update": {
+      "queries": 442,
+      "failed": 0,
+      "above_1e8": 315,
+      "max_finite": 0.413650394738999,
+      "median_finite": 1.370688204185534e-06
+    }
+  },
+  "16": {
+    "positive": {
+      "queries": 425,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 4.3032475766675695e-16,
+      "median_finite": 6.312108334578036e-17
+    },
+    "full_positive": {
+      "queries": 425,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 6.829678492982361e-16,
+      "median_finite": 1.134460564979267e-16
+    },
+    "compressed_cholesky": {
+      "queries": 425,
+      "failed": 40,
+      "above_1e8": 191,
+      "max_finite": 0.9999999897536034,
+      "median_finite": 7.600027318479593e-11
+    },
+    "full_cholesky": {
+      "queries": 425,
+      "failed": 284,
+      "above_1e8": 399,
+      "max_finite": 0.9999999999999732,
+      "median_finite": 0.0049376699898388545
+    },
+    "sherman_morrison": {
+      "queries": 425,
+      "failed": 276,
+      "above_1e8": 389,
+      "max_finite": 0.9999999999994081,
+      "median_finite": 0.00027374266120058283
+    },
+    "sparse_update": {
+      "queries": 425,
+      "failed": 148,
+      "above_1e8": 384,
+      "max_finite": 140744.99859946663,
+      "median_finite": 0.04852371421825249
+    }
+  },
+  "32": {
+    "positive": {
+      "queries": 411,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 3.509617287884225e-16,
+      "median_finite": 5.484039169091396e-17
+    },
+    "full_positive": {
+      "queries": 411,
+      "failed": 0,
+      "above_1e8": 0,
+      "max_finite": 6.69891388695145e-16,
+      "median_finite": 9.932532186391254e-17
+    },
+    "compressed_cholesky": {
+      "queries": 411,
+      "failed": 189,
+      "above_1e8": 303,
+      "max_finite": 1.0,
+      "median_finite": 1.0256381647930824e-07
+    },
+    "full_cholesky": {
+      "queries": 411,
+      "failed": 356,
+      "above_1e8": 391,
+      "max_finite": 1.0458546695576514,
+      "median_finite": 0.9533088629757381
+    },
+    "sherman_morrison": {
+      "queries": 411,
+      "failed": 373,
+      "above_1e8": 399,
+      "max_finite": 1.0,
+      "median_finite": 0.9999999999995405
+    },
+    "sparse_update": {
+      "queries": 411,
+      "failed": 227,
+      "above_1e8": 380,
+      "max_finite": 5.641777378185052e+16,
+      "median_finite": 0.9999999999993642
+    }
+  },
+  "overall": {
+    "graphs": 100,
+    "queries": 1684,
+    "max_positive": 4.615322051264573e-16,
+    "max_defect": 5.23076181964367e-16,
+    "max_bound_ratio": 0.26902461010506,
+    "min_n": 3,
+    "max_n": 30
+  }
+}
