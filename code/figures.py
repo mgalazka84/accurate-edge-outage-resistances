@@ -82,6 +82,9 @@ def main():
             bad.append(100*sum(v>1e-8 for v in rr)/len(rr))
         axes[0].semilogy([0,8,16,32],np.maximum(med,1e-18),linestyle=ls,marker=marker,color=colour,label=label,markersize=4)
         axes[1].plot([0,8,16,32],bad,linestyle=ls,marker=marker,color=colour,markersize=4)
+    bounds=[[float(r['analytic_bound']) for r in a if int(r['spread'])==s] for s in [0,8,16,32]]
+    axes[0].semilogy([0,8,16,32],[statistics.median(b) for b in bounds],color='#222222',ls=':',lw=1.7,label='Median proven bound')
+    axes[0].fill_between([0,8,16,32],[min(b) for b in bounds],[max(b) for b in bounds],color='#999999',alpha=.13)
     axes[0].set(ylabel='Median relative error',xlabel='Log-uniform half-width $s$')
     axes[1].set(ylabel='Errors > $10^{-8}$ or failures (%)',xlabel='Log-uniform half-width $s$',ylim=(-3,103))
     for ax in axes:ax.grid(alpha=.18);ax.set_xticks([0,8,16,32])

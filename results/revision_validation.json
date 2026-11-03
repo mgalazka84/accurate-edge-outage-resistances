@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "graphs": 62,
+  "finite_queries": 329,
+  "max_relative_errors": {
+    "sf_ldl_full": 5.233215626760686e-16,
+    "sf_ldl_compressed": 2.8077801684191765e-16,
+    "decimal35_direct": 6.605421063521622e-33,
+    "decimal80_direct": 7.165942478791641e-78,
+    "decimal35_update": 6.0079536263143704e-33,
+    "cholesky_ir": 1.0676548879296842e-16
+  },
+  "extra_triangle_exponents": [
+    16,
+    32
+  ]
+}

@@ -1,5 +1,5 @@
-# Python 3.12; outage.py and verify.py require only the standard library.
-# Versions used for the recorded numerical experiments and figure generation.
+# Python 3.12; only outage.py requires no third-party packages.
+# Recorded dependencies for verification, experiments and figures.
 numpy==2.3.5
 scipy==1.17.0
 matplotlib==3.10.8

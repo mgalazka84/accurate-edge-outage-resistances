@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/power-grid-lib/pglib-opf",
+  "commit": "dc6be4b2f85ca0e776952ec22cbd4c22396ea5a3",
+  "data_license": "CC BY 4.0",
+  "source_files": [
+    "pglib_opf_case118_ieee.m",
+    "pglib_opf_case14_ieee.m",
+    "pglib_opf_case30_ieee.m",
+    "pglib_opf_case57_ieee.m"
+  ],
+  "adaptation": "Active branches; r=x*tau, tau=1 for zero tap field; consecutive bus indices; no phase shifts in selected cases. Original branch resistance, charging and AC operating constraints are not modeled. No active branch is dropped.",
+  "interpretation": "Positive Laplacian of the DC phase-angle sensitivity model; not an AC contingency study or measured operational data."
+}

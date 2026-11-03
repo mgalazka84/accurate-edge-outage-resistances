@@ -1,71 +1,79 @@
 # Accurate endpoint resistances after edge outages
 
-Python code and recorded experiments accompanying the research draft
-**Componentwise accurate endpoint resistances for all single-edge outages in low-cycle-rank graphs**, by **Marek Gałązka and Hanna Wdowicka**.
+Code and recorded experiments accompanying **Componentwise accurate endpoint resistances for all single-edge outages in low-cycle-rank graphs**, by **Marek Gałązka and Hanna Wdowicka**.
 
-The code computes the effective resistance between the endpoints of each original edge after that edge is removed. Each deletion is a separate query on the original graph. Bridges return infinite resistance and a zero leverage-score complement.
-
-This repository contains the implementation, verification programs, synthetic inputs and recorded numerical results. The manuscript and submission correspondence are maintained separately.
+For each original edge, the code computes the effective resistance between its endpoints after that edge is removed. Each deletion is a separate query. Bridges return infinite resistance and a zero leverage-score complement. The manuscript and submission correspondence are maintained separately from this public repository.
 
 ## Quick start
 
-Use Python 3.12. The core solver and exact verification require only the standard library.
+Use Python 3.12. The core solver needs only the standard library:
 
 ```bash
 python code/outage.py
-python code/verify.py
 ```
 
-The example is a triangle with edge resistances `1, 1e16, 1e16`. Removing its first edge leaves endpoint resistance `2e16` and a leverage-score complement of about `5e-17`.
+The example is a triangle with resistances `1, 1e16, 1e16`. Removing the first edge leaves resistance `2e16` and a leverage-score complement of about `5e-17`.
 
-For the numerical comparisons and figures, install the recorded dependency versions:
+Install the recorded dependencies for the verification scripts, numerical comparisons and plots:
 
 ```bash
 python -m pip install -r code/requirements.txt
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/verify.py
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/experiments.py
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/revision_experiments.py --stage all
 python code/figures.py
+python code/revision_figures.py
 ```
 
-On Windows, set the same three thread-count environment variables using the shell's syntax before running the experiments. The figure program writes PDFs and PNGs to `manuscript/`, a generated directory excluded from Git.
+The additional stages can be run separately: `validate`, `accuracy`, `rank`, `grids`, or `timings`. They also work with the archived original inputs and results, without rerunning `experiments.py`. No external data download is needed. On Windows, set the thread-count environment variables using the shell's syntax. Plots and tables are generated in `manuscript/`, which is excluded from Git.
 
-**Reproduction overwrites the generated files in `results/`.** Keep an untouched checkout when comparing with the recorded measurements. Timings depend on hardware and system load.
+**Reproduction overwrites generated files in `results/`.** Preserve an untouched checkout for comparison. Timings depend on hardware and system load; all measured timing repetitions are retained.
 
 ## Files
 
-| File or directory | Purpose |
+| Path | Purpose |
 | --- | --- |
 | `code/outage.py` | Bridge detection, chain compression, positive elimination and reconstruction |
-| `code/baselines.py` | Exact/high-precision references and dense/sparse numerical baselines |
-| `code/verify.py` | Exhaustive exact checks, seeded cases and targeted regressions |
-| `code/experiments.py` | Accuracy and timing experiments |
-| `code/figures.py` | Figures, explanatory diagrams, tables and summary from saved data |
-| `code/README.txt` | Detailed input contract and reproduction notes |
-| `results/accuracy_inputs.json` | All 100 synthetic graphs with their actual floating-point weights |
-| `results/accuracy.csv` | All 1684 accuracy queries and six implementations |
-| `results/verification.json` | Exact-validation record |
-| `results/precision_checks.json` | Selected reference checks at higher precision |
-| `results/timings.csv`, `results/rank_timings.csv` | Recorded runs, including unfavorable dense-graph cases |
-| `results/environment.json` | Recorded Python, library, processor and thread settings |
+| `code/baselines.py` | Original six-method comparison and exact/high-precision references |
+| `code/verify.py` | Exhaustive exact checks and targeted regressions |
+| `code/experiments.py` | Original accuracy and scaling experiments |
+| `code/revision_baselines.py` | Full/compressed subtraction-free LDL, Decimal 35/80 and refinement |
+| `code/revision_experiments.py` | Additional validation, accuracy, kernel-rank, IEEE and timing studies |
+| `code/figures.py`, `code/revision_figures.py` | Figures, explanatory diagrams, tables and summaries |
+| `code/README.txt` | Input contract, reproduction details and failure conventions |
+| `results/accuracy_inputs.json`, `results/accuracy.csv` | 100 saved graphs and 1684 queries for the original six methods |
+| `results/revision_accuracy.csv` | Six additional methods on those same queries |
+| `results/revision_rank*.json`, `results/revision_rank.csv` | 20 graphs and 744 queries with growing kernel size |
+| `results/revision_pglib*` | Parsed IEEE inputs, reference checks, accuracy and timings |
+| `results/*timings.csv` | Recorded timing repetitions, including unfavorable regimes |
+| `results/environment.json`, `results/revision_environment.json` | Actual versions, processor and thread settings |
+| `data/pglib/` | Four attributed PGLib IEEE source cases, upstream license and provenance |
 
-## Recorded checks
+## Recorded checks and findings
 
-- 875 small graphs: 3756 finite outage responses agree with independent exact rational solves, with 1278 disconnected outages classified separately.
-- Additional long-cycle and excluded-sum regression examples.
-- 100 synthetic accuracy graphs and 1684 finite outage queries, with 160-digit reference arithmetic and selected 240-digit checks.
-- Timing experiments include subdivisions up to 98,304 edges and dense graphs where the proposed method is slower.
+- Original exact verification: 875 small graphs, 3756 finite queries and 1278 disconnected outages, plus long-cycle and excluded-sum regressions.
+- Additional baseline validation: 62 integer-weight graphs and 329 finite queries, including parallel edges and two cycles sharing an anchor.
+- Accuracy: twelve implementations on 100 saved graphs and 1684 finite queries, with 160-digit references and selected 240-digit checks.
+- Kernel growth: 20 distinct cubic graphs through 64 kernel vertices, 744 finite queries and 60 selected direct 240-digit reference checks.
+- PGLib IEEE 14-, 30-, 57- and 118-bus cases: 327 active branches, 14 bridges and 313 finite queries, with 40 selected direct 240-digit checks.
+- Scaling includes subdivisions through 98,304 edges and complete graphs where repeated positive elimination is substantially slower.
 
-The stored records describe completed computational checks. They do not establish novelty or replace verification of the mathematical arguments.
+Both the proposed positive solver and the independently implemented subtraction-free LDL variants maintain high relative accuracy in the extreme-weight suite. Conventional 80-digit direct solves also succeed throughout; 35 digits do not suffice for every extreme case. Sparse binary64 updates work well on all four IEEE cases and are faster on the larger ones. The analytic error bound becomes conservative as the kernel grows. These records support a structural and accuracy-based choice, not universal superiority.
 
-## Input and scope
+The SF-LDL baseline implements the principle of Orera and Peña, *Mathematics* 12(22), 3491 (2024), https://doi.org/10.3390/math12223491. It is an independent implementation, not the authors' software. The refinement baseline corrects direct deleted-network Cholesky solves; it does not implement the rank-one SMIR method.
 
-Edges are triples `(u, v, resistance)`, with vertices numbered `0` through `n-1`. The graph must be connected and loop-free, and resistances must be positive and finite. Parallel edges are allowed. The numerical guarantee assumes no overflow or underflow in intermediate operations.
+## Inputs, data and scope
 
-The output concerns the failed edge's own endpoints. It is not an all-pairs solver after each failure, a sequential-update routine, or an alternating-current power-flow model. Series reduction and positive star-mesh elimination are classical ingredients; the draft analyzes their combination and the error of the reconstructed output vector.
+Edges are `(u, v, resistance)`, with vertices numbered `0` through `n-1`. Inputs must be connected and loop-free, with strictly positive finite resistances. Parallel edges are supported. The theorem assumes no overflow or underflow, including in intermediate arithmetic.
+
+PGLib cases are converted to positive DC sensitivity Laplacians using resistance `x * tap`, with a stored zero tap interpreted as one. Every active branch is retained. All active reactances are positive and all phase shifts zero in these cases. This is a DC sensitivity experiment on benchmark networks, not AC power-flow or measured operational validation. Exact upstream identity, file hashes and adaptation are recorded in `data/pglib/PROVENANCE.json`.
+
+The output concerns each failed edge's own endpoints. It is not an all-pairs outage solver or a sequential-update routine. Series reduction, star-mesh elimination and HRA factorization are established techniques. The manuscript's claim concerns the quantitative bound and cost of the complete all-edge computation after chain reduction.
 
 ## Status and attribution
 
-Research code accompanying an author-review draft, prepared on 3 November 2026. Contact: Marek Gałązka, `galazka@amu.edu.pl`.
+Research materials revised in response to supplied comments on 3 November 2026. Computational checks do not establish novelty or replace the human authors' verification of the arguments. Contact: Marek Gałązka, `galazka@amu.edu.pl`.
 
-An OpenAI language-model assistant supported implementation of the verification, experimental and plotting programs. The draft manuscript and cover letter describe the broader assistance used in preparing the research draft.
+An OpenAI language-model assistant supported implementation of the verification, experimental and plotting programs. The manuscript and cover letter describe the broader assistance in developing the research draft.
 
-No software license has been selected for this repository.
+No license has been selected for the original software in this repository. The copied PGLib case data retain their upstream attribution and **CC BY 4.0** license; `data/pglib/LICENSE` also describes the upstream licensing distinction. That upstream license does not license this repository's original solver code.
