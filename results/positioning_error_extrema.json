@@ -1,0 +1,23 @@
+{
+  "independent": {
+    "case": "theta_s16_j0",
+    "zero_based_eid": 6,
+    "rho_error": 2.090741214306103e-16,
+    "bound": 7.771561172376099e-16,
+    "exponent": 7,
+    "ratio": 0.26902461010506
+  },
+  "shared": {
+    "case": "theta_s16_j0",
+    "zero_based_eid": 6,
+    "rho_error": 2.090741214306103e-16,
+    "bound": 7.771561172376099e-16,
+    "exponent": 7,
+    "ratio": 0.26902461010506
+  },
+  "endpoints": [
+    5,
+    1
+  ],
+  "note": "The same resistance output attains both reported maxima; 0.270 is an upper bound, not an attained value."
+}

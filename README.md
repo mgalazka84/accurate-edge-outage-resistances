@@ -1,6 +1,6 @@
 # Accurate endpoint resistances after edge outages
 
-Code and recorded experiments accompanying **Componentwise accurate endpoint resistances for all single-edge outages in low-cycle-rank graphs**, by **Marek Gałązka and Hanna Wdowicka**.
+Code and recorded experiments accompanying **Componentwise accurate all-edge outage resistances with cubic cycle-rank complexity**, by **Marek Gałązka and Hanna Wdowicka**.
 
 For each original edge, the code computes the effective resistance between its endpoints after that edge is removed. Each deletion is a separate query. Bridges return infinite resistance and a zero leverage-score complement. The manuscript and submission correspondence are maintained separately from this public repository.
 
@@ -41,6 +41,37 @@ Felix Broberg's 2020 KTH thesis, *Prediction Assisted Fully Dynamic All-Pairs
 Effective Resistance*, Chapter 5. The accompanying manuscript analyzes the
 cubic deterministic specialization and its full working-precision error bound;
 it does not claim the first offline Schur recursion.
+
+
+## Matched complete-graph comparison and Figure 8
+
+Run after the original figure scripts (the last command replaces Figure 8):
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/positioning_experiments.py
+python code/positioning_figures.py
+```
+
+`positioning_complete_timings.csv` reruns Algorithms 1 and 2 and both update
+implementations together on the original seeded complete graphs K4 through K24.
+It retains one warm-up and three measured runs per method. Saved inputs and
+independent 100-digit direct deleted-network references accompany all 746 shared
+outputs. Their maximum relative error is below 3.61e-16; all satisfy their bounds.
+`positioning_subdivision_timings.csv` adds the shared solver on the exact original
+subdivision inputs. The left panel retains the archived baseline measurements;
+the right panel uses the matched rerun. Original CSV files are preserved.
+`positioning_environment.json` records software, thread settings and methodology.
+
+For K24, independent/shared medians are 0.1162/0.01597 seconds. Sharing is 7.27
+times faster than Algorithm 1 but 7.46/10.31 times slower than dense/sparse
+updates. These are implementation-specific ratios, not algorithmic constants.
+The subtraction-free cubic cycle-rank theorem supplies accuracy at the classical
+cubic upper-bound order in cycle rank. It is not a cubic vertex-count theorem
+for dense graphs, nor a general runtime advantage over update methods.
+
+`positioning_error_extrema.json` identifies the common error/bound extremum in
+Sections 7.3 and 7.8: theta_s16_j0, zero-based edge index 6, endpoints (5,1).
+Its resistance error/bound is 0.26902461010506 for both methods (E=7).
 
 ## Quick start
 
