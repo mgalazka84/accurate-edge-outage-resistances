@@ -199,3 +199,13 @@ positioning_error_extrema.json identifies the common error/bound extremum in
 Sections 7.3 and 7.8: theta_s16_j0, zero-based edge index 6, endpoints (5,1).
 Its resistance error/bound is 0.26902461010506 for both methods (E=7).
 
+
+COMPLETE-GRAPH REFERENCE PRECISION
+
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/complete_precision_check.py
+
+All 746 direct 100-digit references agree with 240-digit repeats to relative
+difference below 2.01e-98. Per-query values and a summary are retained in
+results/complete_precision_check.csv and results/complete_precision_summary.json.
+Timing ratios use unrounded CSV medians; K24 shared/sparse is
+9.863582299394875..., correctly rounded to 9.86.

@@ -98,6 +98,26 @@ in division by a nearly zero denominator.
 Sections 7.3 and 7.8: `theta_s16_j0`, zero-based edge index 6, endpoints (5,1).
 Its resistance error/bound is 0.26902461010506 for both methods (E=7).
 
+
+### Precision check for complete graphs
+
+```bash
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/complete_precision_check.py
+```
+
+All 746 archived 100-digit direct references were repeated at 240 digits.
+The maximum relative difference is 2.0089163315470528e-98, far below the
+binary64 errors assessed in the paper. Every shared result still satisfies
+its bound. The script retains each 240-digit value and discrepancy in
+`results/complete_precision_check.csv` and a summary in
+`results/complete_precision_summary.json`. This is a precision-convergence
+check, not an interval-arithmetic certificate. It does not rerun timings.
+
+Timing ratios use unrounded medians from the CSV files. For K24,
+0.01769712099485332 / 0.0017941879996214993 = 9.863582299394875...,
+which rounds to 9.86. Dividing the shortened printed medians can change
+the final digit.
+
 ## Quick start
 
 Use Python 3.12. The core solver needs only the standard library:

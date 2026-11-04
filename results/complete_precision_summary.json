@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "date": "2026-11-04T19:31:15.141277+00:00",
+  "graphs": 8,
+  "queries": 746,
+  "original_precision": 100,
+  "check_precision": 240,
+  "input_half_width": 2,
+  "input_note": "Archived binary64 resistances converted exactly to Decimal",
+  "max_relative_reference_difference": 2.0089163315470528e-98,
+  "max_shared_error240": 3.6017407733173814e-16,
+  "max_sf_ldl_error240": 5.65647828725412e-16,
+  "note": "Precision convergence of all direct nodal references; not a formal interval certificate."
+}
