@@ -31,25 +31,32 @@ def scheme():
 
 def results():
     rows=list(csv.DictReader((ROOT/'results/joint_timings.csv').open()))
+    matched=list(csv.DictReader((ROOT/'results/hra_comparison_timings.csv').open()))
     fig,axes=plt.subplots(1,2,figsize=(9.4,3.7))
     for method,label,style,color in [('independent','Independent positive','s--','#9b59b6'),('shared','Shared positive','o-','#087f8c')]:
         rr=[r for r in rows if r['family']=='ladder' and r['method']==method]
         xs=[int(r['rank']) for r in rr]
         axes[0].loglog(xs,[int(r['kernel_arithmetic_ops']) for r in rr],style,label=label,color=color)
-        axes[1].loglog(xs,[float(r['seconds']) for r in rr],style,label=label,color=color)
+        name={'independent':'compressed_positive','shared':'shared_positive'}[method]
+        mm=[r for r in matched if r['family']=='ladder' and r['method']==name]
+        axes[1].loglog([int(r['rank']) for r in mm],[float(r['median_seconds']) for r in mm],style,label=label,color=color)
+    mm=[r for r in matched if r['family']=='ladder' and r['method']=='sf_ldl_compressed']
+    axes[1].loglog([int(r['rank']) for r in mm],[float(r['median_seconds']) for r in mm],'x-.',label='Compressed SF-LDL',color='#267d43')
     for ax in axes:
         ax.set_xlabel('Cycle rank of circular ladder');ax.grid(alpha=.2)
     axes[0].set_ylabel('Kernel arithmetic operations')
     axes[1].set_ylabel('Seconds for all endpoint outages')
     axes[0].legend(frameon=False,fontsize=9)
+    axes[1].legend(frameon=False,fontsize=8)
     fig.tight_layout();fig.savefig(OUT/'shared_scaling.pdf');plt.close(fig)
-    lines=[r'\begin{tabular}{rrrrrrr}',r'\toprule',
-        r'$v$ & $r$ & Independent ops & Shared ops & Ratio & Independent (s) & Shared (s)\\',r'\midrule']
+    lines=[r'\begin{tabular}{rrrrrrrr}',r'\toprule',
+        r'$v$ & $r$ & Independent ops & Shared ops & Ratio & Independent (s) & SF-LDL (s) & Shared (s)\\',r'\midrule']
     for n in [8,16,32,64,128]:
         a=next(r for r in rows if r['family']=='ladder' and int(r['n'])==n and r['method']=='independent')
         b=next(r for r in rows if r['family']=='ladder' and int(r['n'])==n and r['method']=='shared')
         x,y=int(a['kernel_arithmetic_ops']),int(b['kernel_arithmetic_ops'])
-        lines.append(f"{n} & {a['rank']} & {x:,} & {y:,} & {x/y:.2f} & {float(a['seconds']):.6f} & {float(b['seconds']):.6f}"+r'\\')
+        times={r['method']:float(r['median_seconds']) for r in matched if r['family']=='ladder' and int(r['n'])==n}
+        lines.append(f"{n} & {a['rank']} & {x:,} & {y:,} & {x/y:.2f} & {times['compressed_positive']:.6f} & {times['sf_ldl_compressed']:.6f} & {times['shared_positive']:.6f}"+r'\\')
     lines.extend([r'\bottomrule',r'\end{tabular}'])
     (OUT/'shared_table.tex').write_text('\n'.join(lines)+'\n')
 

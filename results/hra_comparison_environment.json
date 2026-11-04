@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-04T16:53:27.824436+00:00",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "threads": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "timing": "one warm-up and three complete-profile runs; median; references outside timed regions",
+  "implementations": "positive solvers: Python loops; SF-LDL: Python with vectorized NumPy updates and dot products; dense/sparse update: SciPy compiled factorizations and solves",
+  "references": "complete: archived 100-digit direct nodal solves; ladders: Decimal(160) original-factor update, checked by three Decimal(240) direct deleted-network solves per graph",
+  "checked_outputs": 1118,
+  "max_sf_ldl_error": 1.5191003972231618e-15,
+  "max_shared_error": 8.200206062744935e-16
+}

@@ -1,4 +1,4 @@
-"""Rebuild Figure 8 with shared reductions and matched complete-graph timings."""
+"""Rebuild Figure 8 with shared reductions and the matched HRA comparison."""
 import csv,io,os
 from pathlib import Path
 import matplotlib
@@ -13,13 +13,14 @@ def main():
     styles={
         'compressed_positive':('#126a70','-','o','Algorithm 1: independent positive'),
         'shared_positive':('#702c91','-','*','Algorithm 2: shared positive'),
+        'sf_ldl_compressed':('#267d43','-.','x','Compressed SF-LDL'),
         'compressed_cholesky':('#db9a30','-.','D','Compressed Cholesky'),
         'full_positive':('#69a7a0','--','v','Full positive'),
         'full_cholesky':('#92509e',':','P','Full Cholesky'),
         'sherman_morrison':('#b54a47','-','s','Dense factor + endpoint formula'),
         'sparse_update':('#3f62a0','--','^','Sparse LU + endpoint formula')}
     left=load('timings.csv')+load('positioning_subdivision_timings.csv')
-    right=load('positioning_complete_timings.csv')
+    right=[r for r in load('hra_comparison_timings.csv') if r['family']=='complete']
     fig,axes=plt.subplots(1,2,figsize=(7.2,4.2))
     for ax,rows,key in [(axes[0],left,'m'),(axes[1],right,'rank')]:
         for name,(color,ls,mark,label) in styles.items():
@@ -28,8 +29,11 @@ def main():
         ax.grid(alpha=.18)
     axes[0].set(xlabel='Edges in subdivided $K_4$ (cycle rank 3)',ylabel='Seconds for all endpoint outages',title='Fixed rank: growing chains')
     axes[1].set(xlabel='Cycle rank of complete graph',ylabel='Seconds for all endpoint outages',title='No chain reduction')
-    h,l=axes[0].get_legend_handles_labels()
-    fig.legend(h,l,loc='lower center',bbox_to_anchor=(.5,.01),ncol=2,fontsize=8,frameon=False)
+    legend={}
+    for ax in axes:
+        h,l=ax.get_legend_handles_labels()
+        legend.update(zip(l,h))
+    fig.legend(legend.values(),legend.keys(),loc='lower center',bbox_to_anchor=(.5,.01),ncol=2,fontsize=8,frameon=False)
     fig.tight_layout(rect=(0,.24,1,1))
     buf=io.BytesIO();fig.savefig(buf,format='pdf',bbox_inches='tight')
     tmp=OUT/'runtime_scaling.pdf.tmp'

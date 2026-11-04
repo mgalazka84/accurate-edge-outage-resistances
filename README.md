@@ -1,6 +1,6 @@
 # Accurate endpoint resistances after edge outages
 
-Code and recorded experiments accompanying **Componentwise accurate all-edge outage resistances with cubic cycle-rank complexity**, by **Marek Gałązka and Hanna Wdowicka**.
+Code and recorded experiments accompanying **Componentwise accurate all-edge outage resistances in graphs with cubic cycle-rank complexity**, by **Marek Gałązka and Hanna Wdowicka**.
 
 For each original edge, the code computes the effective resistance between its endpoints after that edge is removed. Each deletion is a separate query. Bridges return infinite resistance and a zero leverage-score complement. The manuscript and submission correspondence are maintained separately from this public repository.
 
@@ -11,7 +11,9 @@ networks among balanced groups of outage queries. Active query edges remain
 absent; a child adds sibling edges and positively eliminates vertices outside
 its own endpoints. The deterministic arithmetic work is
 `O(n + m + sum_i r_i^3)`, with the componentwise error bound proved in the
-manuscript. The original `all_outages` remains the independent-query baseline.
+manuscript. More precisely, a kernel with v vertices and k edges costs
+O(k v^2 + k log(k+1)); a complete graph therefore costs O(v^4). The
+original `all_outages` remains the independent-query baseline.
 
 Reproduce the added checks and figures with:
 
@@ -32,8 +34,10 @@ be tracked in the code repository.
 
 The 128-vertex ladder uses 782,008 kernel arithmetic operations with sharing,
 versus 43,856,872 for independent positive solves. Recorded complete-profile
-medians are approximately 0.0422 and 1.797 seconds. Both kernels use Python
-scalar arithmetic; these are implementation-specific measurements.
+medians in the matched HRA run are approximately 0.05180 and 1.918 seconds,
+with compressed SF-LDL taking 2.375 seconds on the same inputs. Both counted
+kernels use Python scalar arithmetic; SF-LDL uses NumPy array updates.
+These are implementation-specific measurements.
 
 Recursive Schur methods have prior art: Durfee et al., STOC 2017
 (DOI 10.1145/3055399.3055463), and the active-edge exclusion recursion in
@@ -43,34 +47,55 @@ cubic deterministic specialization and its full working-precision error bound;
 it does not claim the first offline Schur recursion.
 
 
-## Matched complete-graph comparison and Figure 8
+## Matched HRA comparison: ladders and complete graphs
 
-Run after the original figure scripts (the last command replaces Figure 8):
+Run after the original figure scripts (the last two commands replace Figures 8
+and 10 and Table 7):
 
 ```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/positioning_experiments.py
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/hra_comparison.py
 python code/positioning_figures.py
+python code/joint_figures.py
 ```
 
-`positioning_complete_timings.csv` reruns Algorithms 1 and 2 and both update
-implementations together on the original seeded complete graphs K4 through K24.
-It retains one warm-up and three measured runs per method. Saved inputs and
-independent 100-digit direct deleted-network references accompany all 746 shared
-outputs. Their maximum relative error is below 3.61e-16; all satisfy their bounds.
-`positioning_subdivision_timings.csv` adds the shared solver on the exact original
-subdivision inputs. The left panel retains the archived baseline measurements;
-the right panel uses the matched rerun. Original CSV files are preserved.
-`positioning_environment.json` records software, thread settings and methodology.
+`hra_comparison_timings.csv` compares independent positive elimination, shared
+positive elimination and compressed SF-LDL on circular ladders through 128
+vertices and complete graphs K4 through K24. The complete-graph runs also
+include dense and sparse original-factor updates. All methods use the same
+saved inputs, one warm-up and three timed complete-profile runs. Timings exclude
+high-precision reference computations; all repetitions are retained.
 
-For K24, independent/shared medians are 0.1162/0.01597 seconds. Sharing is 7.27
-times faster than Algorithm 1 but 7.46/10.31 times slower than dense/sparse
-updates. These are implementation-specific ratios, not algorithmic constants.
-The subtraction-free cubic cycle-rank theorem supplies accuracy at the classical
-cubic upper-bound order in cycle rank. It is not a cubic vertex-count theorem
-for dense graphs, nor a general runtime advantage over update methods.
+For K24, Algorithm 1 / Algorithm 2 / SF-LDL medians are 0.1542 / 0.01770 /
+0.2655 seconds. Sharing is 15.00 times faster than this SF-LDL implementation,
+but 7.07 / 9.86 times slower than dense / sparse updates. On the 128-vertex
+ladder it is 45.84 times faster than SF-LDL. Both positive approaches remain
+accurate: all 1118 shared outputs satisfy their error bounds, and the maximum
+SF-LDL relative error is below 1.52e-15. Complete graphs reuse 746 archived
+100-digit direct references; the 372 ladder references use 160-digit updates,
+checked by 15 independent 240-digit direct deleted-network solves.
+
+The results include saved inputs, accuracy records, precision checks and
+`hra_comparison_environment.json`. The original four-method complete-graph
+run remains in `positioning_complete_timings.csv`; its different medians are
+not combined with the new run. Figure 8's subdivision panel retains the
+original baseline and `positioning_subdivision_timings.csv` measurements.
+`positioning_experiments.py` reproduces those archived inputs and references.
+
+The work theorem gives O(k v^2 + k log(k+1)) per kernel, O(v^4) on complete
+graphs and O(sum_i r_i^3) in cycle rank. Separate SF-LDL solves cost O(k v^3).
+The tested dense factor-and-incidence route also costs O(v^3 + k v^2); the
+unbenchmarked full-inverse identity costs O(v^3 + k). Neither asymptotic bound
+alone explains the observed constant-factor timing gaps. Depth-first auxiliary
+matrix storage is O(v^2 [1 + log_+(p/v)]) for p nonloop kernel edges, plus
+O(k) query/input/output storage. Here log_+(x)=max(0,log2(x)).
+
+`hra_sparse_extreme.json` reproduces the largest finite sparse-update error
+from Table 3. Its computed denominator is about 0.198 and the true complement
+nearly one: this particular error starts in the original-network solve, not
+in division by a nearly zero denominator.
 
 `positioning_error_extrema.json` identifies the common error/bound extremum in
-Sections 7.3 and 7.8: theta_s16_j0, zero-based edge index 6, endpoints (5,1).
+Sections 7.3 and 7.8: `theta_s16_j0`, zero-based edge index 6, endpoints (5,1).
 Its resistance error/bound is 0.26902461010506 for both methods (E=7).
 
 ## Quick start
@@ -109,6 +134,8 @@ The additional stages can be run separately: `validate`, `accuracy`, `rank`, `gr
 | `code/revision_baselines.py` | Full/compressed subtraction-free LDL, Decimal 35/80 and refinement |
 | `code/revision_experiments.py` | Additional validation, accuracy, kernel-rank, IEEE and timing studies |
 | `code/figures.py`, `code/revision_figures.py` | Figures, explanatory diagrams, tables and summaries |
+| `code/hra_comparison.py` | Matched SF-LDL, shared and conventional timings; extra reference checks |
+| `results/hra_*` | Inputs, raw timings, 1118 accuracy checks and sparse-update diagnostic |
 | `code/README.txt` | Input contract, reproduction details and failure conventions |
 | `results/accuracy_inputs.json`, `results/accuracy.csv` | 100 saved graphs and 1684 queries for the original six methods |
 | `results/revision_accuracy.csv` | Six additional methods on those same queries |
@@ -141,7 +168,7 @@ The output concerns each failed edge's own endpoints. It is not an all-pairs out
 
 ## Status and attribution
 
-Research materials revised in response to supplied comments on 3 November 2026. Computational checks do not establish novelty or replace the human authors' verification of the arguments. Contact: Marek Gałązka, `galazka@amu.edu.pl`.
+Research materials revised in response to supplied comments on 4 November 2026. Computational checks do not establish novelty or replace the human authors' verification of the arguments. Contact: Marek Gałązka, `galazka@amu.edu.pl`.
 
 An OpenAI language-model assistant supported implementation of the verification, experimental and plotting programs.
 
