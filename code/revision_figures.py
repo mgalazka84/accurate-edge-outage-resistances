@@ -50,12 +50,12 @@ def main():
         summary['rank'][str(n)]=dict(rank=ranks[-1],exponent=exponents[-1],bound=bounds[-1],
             max_error=max(float(r['relative_error']) for r in rr),max_error_to_bound=max(float(r['error_to_bound']) for r in rr))
     axes[0].plot(ranks,exponents,'o-',color='#126a70')
-    axes[0].set(xlabel='Component cycle rank $r_i$',ylabel='Proven exponent $E$')
+    axes[0].set(xlabel='Component cycle rank $r_i$',ylabel=r'Proven exponent $\mathcal{E}$')
     for x,y,n in zip(ranks,exponents,[4,8,16,32,64]):
         offset=(0,13) if n==4 else (5,-10) if n==8 else (4,5)
         axes[0].annotate(f'$v={n}$',(x,y),xytext=offset,textcoords='offset points',fontsize=8)
     axes[0].set_ylim(0,650);axes[0].set_xlim(0,37)
-    axes[1].semilogy(ranks,bounds,'k:',label=r'Proven $\nu^E-1$ (approximately $Eu$)')
+    axes[1].semilogy(ranks,bounds,'k:',label=r'Proven $\nu^{\mathcal{E}}-1$ (approximately $\mathcal{E}u$)')
     for s,c,m in [(0,'#126a70','o'),(8,'#b54a47','s')]:
         vals=[max(float(r['relative_error']) for r in rank if int(r['rank'])==rr and int(r['spread'])==s) for rr in ranks]
         axes[1].semilogy(ranks,[x if x>=1e-17 else np.nan for x in vals],marker=m,color=c,label=f'Maximum error, $s={s}$')

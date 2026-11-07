@@ -4,6 +4,24 @@ Code and recorded experiments accompanying **Componentwise accurate all-edge out
 
 For each original edge, the code computes the effective resistance between its endpoints after that edge is removed. Each deletion is a separate query. Bridges return infinite resistance and a zero leverage-score complement. The manuscript and submission correspondence are maintained separately from this public repository.
 
+## Reproduce the vertex-partition experiments
+
+The vertex solver performs O(v³ + k) arithmetic operations on a kernel with v vertices and k edges. Its full-network interface returns both original-edge outage quantities and range diagnostics. In a default run a range violation raises an exception. The six positive PGLib cases, branch conventions, upstream commit, attributions and file checksums are in `data/pglib/PROVENANCE.json`.
+
+With Python 3, g++ and the packages in `code/requirements.txt`, run the following from the repository root.
+
+```bash
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
+python code/vertex_study.py
+python code/vertex_reference_checks.py suites
+python code/vertex_reference_checks.py ladders
+python code/vertex_matched_study.py grids
+python code/vertex_matched_study.py families
+python code/vertex_figures.py results/vertex_compiled.pdf
+```
+
+The archived results cover exact rational checks, the closed-form ring oracle, all 2304 large-ladder queries at two decimal precisions, 2741 queries on the archived weighted, IEEE and kernel-size suites, and the two larger grid models. The `vertex_grid_paths.json` file records measured pivot-degree sums, padding, exponents, topology checks and original-graph SuperLU timings. The `vertex_matched_*.csv` files contain arithmetic counts and five individual timings per kernel method. Rerunning a timing study replaces the local timing samples. `code/README.txt` documents the interfaces.
+
 ## Shared positive Schur reductions
 
 `code/joint_outage.py` adds `all_outages_joint(n, edges)`. It shares background
@@ -188,7 +206,7 @@ The output concerns each failed edge's own endpoints. It is not an all-pairs out
 
 ## Status and attribution
 
-Research materials revised in response to supplied comments on 4 November 2026. Computational checks do not establish novelty or replace the human authors' verification of the arguments. Contact: Marek Gałązka, `galazka@amu.edu.pl`.
+Computational materials. Contact: Marek Gałązka, `galazka@amu.edu.pl`.
 
 An OpenAI language-model assistant supported implementation of the verification, experimental and plotting programs.
 

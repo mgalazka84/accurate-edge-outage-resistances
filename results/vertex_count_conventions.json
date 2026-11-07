@@ -1,0 +1,16 @@
+[
+  {
+    "seed": 1107718,
+    "python_ops": 782008,
+    "cpp_ops": 547632,
+    "reused_divisions": 234376,
+    "pair_updates": 253632
+  },
+  {
+    "seed": 583,
+    "python_ops": 782008,
+    "cpp_ops": 547632,
+    "reused_divisions": 234376,
+    "pair_updates": 253632
+  }
+]

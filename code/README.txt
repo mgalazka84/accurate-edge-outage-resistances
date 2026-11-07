@@ -1,3 +1,6 @@
+VERTEX PARTITIONS
+See ../README.md for Algorithm 3, the C++ implementations, commands, data and range diagnostics. The following sections describe the baseline solvers.
+
 REPRODUCIBILITY MATERIAL — FIRST SUBMISSION, 3 NOVEMBER 2026
 
 Componentwise accurate all-edge outage resistances in graphs with cubic cycle-rank complexity — Marek Gałązka and Hanna Wdowicka
@@ -209,3 +212,22 @@ difference below 2.01e-98. Per-query values and a summary are retained in
 results/complete_precision_check.csv and results/complete_precision_summary.json.
 Timing ratios use unrounded CSV medians; K24 shared/sparse is
 9.863582299394875..., correctly rounded to 9.86.
+
+Vertex-partition validation and matched comparisons (one BLAS thread)
+-------------------------------------------------------------------
+From the root of the computational archive:
+  python code/vertex_study.py original exact rings grid
+  python code/vertex_reference_checks.py suites
+  python code/vertex_reference_checks.py ladders
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/vertex_matched_study.py grids
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python code/vertex_matched_study.py families
+  python code/vertex_figures.py --output figures/vertex_compiled.pdf
+
+These commands read the archived inputs and per-query references under results/.
+The ladder checks independently factor the original deleted networks twice on
+each of 2304 edges. The compiled matched runs count scalar arithmetic in a
+separate pass. Grid kernel methods take the same compressed input and return
+every bypass. The separate original-grid SuperLU times include both reconstructed
+outputs on the full network, with preidentified bridges. Path traces report the
+actual pivot-degree cost, level count and largest degree. Loop bypasses have no
+elimination path. Per-run results retain unrounded errors and times.

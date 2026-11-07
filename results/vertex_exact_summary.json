@@ -1,0 +1,11 @@
+{
+  "graphs": 45,
+  "nonloop_queries": 675,
+  "loop_checks": 45,
+  "mixed_original_edges": 6,
+  "binary64_max": {
+    "2": 4.35233221879236e-16,
+    "3": 3.3338907319860787e-16,
+    "4": 4.443011130553358e-16
+  }
+}

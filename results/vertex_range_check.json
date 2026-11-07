@@ -1,0 +1,11 @@
+{
+  "ops": 132,
+  "subnormal": 0,
+  "positive_to_zero": 4,
+  "nonfinite": 0,
+  "hw_underflow": 1,
+  "nodes": 7,
+  "leaves": 6,
+  "unaudited_hw_flag": 1,
+  "full_solver_raised": true
+}

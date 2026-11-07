@@ -1,0 +1,105 @@
+[
+  {
+    "case": "pglib_opf_case1354_pegase",
+    "v": 400,
+    "k": 1035,
+    "padding": 512,
+    "H": 3,
+    "D": 9,
+    "mu": 5,
+    "selected": {
+      "outage": 1684,
+      "kernel_edge": 1031,
+      "loop": true,
+      "chain_length": 6,
+      "query_multiplicity": 0,
+      "degree_sum": 0,
+      "pivots": 0,
+      "levels": 0,
+      "max_degree": 0,
+      "uniform_E_delta": 9,
+      "path_E_delta": 9,
+      "uniform_bound": 9.992007221626415e-16,
+      "path_bound": 9.992007221626415e-16
+    },
+    "extra_nonloop": {
+      "outage": 168,
+      "kernel_edge": 149,
+      "loop": false,
+      "chain_length": 2,
+      "query_multiplicity": 1,
+      "degree_sum": 2702,
+      "pivots": 398,
+      "levels": 8,
+      "max_degree": 87,
+      "uniform_E_delta": 4796,
+      "path_E_delta": 2722,
+      "uniform_bound": 5.324629626103668e-13,
+      "path_bound": 3.0220270730301325e-13,
+      "delta": 0.007141624560423475,
+      "positive_error": 2.4373341935460615e-17,
+      "sparse_error": 4.518082586106084e-15,
+      "reference_gap": 6.182948099098354e-78
+    },
+    "cut_sizes": {
+      "834": [
+        3,
+        1351
+      ]
+    },
+    "original_SuperLU_times": [
+      0.055604183,
+      0.060670275,
+      0.055398892000000005,
+      0.054420145,
+      0.054887687000000004
+    ],
+    "original_SuperLU_median": 0.055398892000000005,
+    "Lnnz": 4803,
+    "Unnz": 5012
+  },
+  {
+    "case": "pglib_opf_case2383wp_k",
+    "v": 531,
+    "k": 1043,
+    "padding": 1024,
+    "H": 4,
+    "D": 10,
+    "mu": 3,
+    "selected": {
+      "outage": 2581,
+      "kernel_edge": 601,
+      "loop": false,
+      "chain_length": 12,
+      "query_multiplicity": 1,
+      "degree_sum": 3996,
+      "pivots": 529,
+      "levels": 9,
+      "max_degree": 101,
+      "uniform_E_delta": 6898,
+      "path_E_delta": 4017,
+      "uniform_bound": 7.658318423867262e-13,
+      "path_bound": 4.4597658899202484e-13
+    },
+    "extra_nonloop": {},
+    "cut_sizes": {
+      "1203": [
+        12,
+        2371
+      ],
+      "1718": [
+        2383
+      ]
+    },
+    "original_SuperLU_times": [
+      0.13671418400000002,
+      0.147353158,
+      0.143073065,
+      0.138731126,
+      0.139226129
+    ],
+    "original_SuperLU_median": 0.139226129,
+    "Lnnz": 11172,
+    "Unnz": 11289
+  }
+]

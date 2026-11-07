@@ -21,7 +21,7 @@ finite bypasses. Vertex order and balanced query splits are deterministic.
     if stats is None:
         stats = {}
     for key in ('nodes', 'eliminations', 'pair_updates', 'arithmetic_ops',
-                'matrix_entries', 'max_depth'):
+                'matrix_entries', 'max_depth', 'reusable_divisions'):
         stats.setdefault(key, 0)
     if not query:
         return beta, exponent
@@ -76,6 +76,9 @@ finite bypasses. Vertex order and balanced query splits are deterministic.
                     raise ArithmeticError('Unexpected zero elimination pivot')
                 total = pair_sum(c[pivot][i] for i in neighbors)
                 stats['arithmetic_ops'] += len(neighbors) - 1
+                # A compiled pivot can reuse the ratio for each column of neighbor pairs.
+                d = len(neighbors)
+                stats['reusable_divisions'] += (d - 1) * (d - 2) // 2
                 for pos, j in enumerate(neighbors):
                     for i in neighbors[:pos]:
                         increment = c[i][pivot] * (c[j][pivot] / total)

@@ -19,15 +19,16 @@ def connected(n, edges, omit=None):
     return len(seen) == n
 
 
-def main():
+def main(solver=None, result_name="verification.json"):
+    solver = all_outages if solver is None else solver
     start = time.perf_counter()
     cases, queries, bridges, maxerr, maxratio = 0, 0, 0, 0.0, 0.0
     def check(n, edges):
         nonlocal cases, queries, bridges, maxerr, maxratio
         exact_edges = [(u,v,Fraction(r)) for u,v,r in edges]
         float_edges = [(u,v,float(r)) for u,v,r in edges]
-        exact = all_outages(n, exact_edges)
-        actual = all_outages(n, float_edges)
+        exact = solver(n, exact_edges)
+        actual = solver(n, float_edges)
         for k in actual.kernels:
             if k.rank >= 2:
                 assert k.n <= 2*k.rank-2
@@ -77,7 +78,7 @@ def main():
         check(n,[(u,v,rng.randrange(1,100)) for u,v in sorted(pairs)])
     assert exclusive_sums([1e30,1.0,2.0])[0] == 3.0
     long_cycle = [(i,(i+1)%10001,1.0) for i in range(10001)]
-    p = all_outages(10001,long_cycle)
+    p = solver(10001,long_cycle)
     assert all(x == 10000.0 for x in p.bypass)
     result = dict(status='PASS', exhaustive_connected_graphs=counts,
                   tested_graphs=cases, finite_outage_queries=queries,
@@ -85,7 +86,7 @@ def main():
                   max_error_to_proven_bound=maxratio,
                   long_cycle_edges=10001,
                   elapsed_seconds=time.perf_counter()-start)
-    out = Path(__file__).resolve().parents[1]/'results'/'verification.json'
+    out = Path(__file__).resolve().parents[1]/'results'/result_name
     out.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
 

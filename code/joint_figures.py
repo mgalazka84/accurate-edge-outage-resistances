@@ -13,20 +13,37 @@ plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'pdf.fonttype':4
 
 
 def scheme():
-    fig,ax=plt.subplots(figsize=(9.3,4.25))
-    ax.set(xlim=(0,10),ylim=(0,4.6));ax.axis('off')
-    def box(x,y,w,h,label):
-        ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle='round,pad=0.05',
-            facecolor='#f3f7fa',edgecolor='#185b70',linewidth=1.2))
-        ax.text(x+w/2,y+h/2,label,ha='center',va='center',linespacing=1.5,fontsize=10)
-    box(2.8,3.65,4.4,.75,r'Queries $Q=Q_1\,\dot\cup\,Q_2$'+'\n'+r'Background $\mathcal{S}_Q$: all $Q$ absent')
-    box(.15,1.75,4.45,1.1,r'Child queries $Q_1$'+'\n'+r'Add $Q_2$; retain $U_{Q_1}$'+'\n'+r'$\mathcal{S}_{Q_1}=\mathrm{Sc}_{U_{Q_1}}(\mathcal{S}_Q+L(Q_2))$')
-    box(5.4,1.75,4.45,1.1,r'Child queries $Q_2$'+'\n'+r'Add $Q_1$; retain $U_{Q_2}$'+'\n'+r'$\mathcal{S}_{Q_2}=\mathrm{Sc}_{U_{Q_2}}(\mathcal{S}_Q+L(Q_1))$')
-    box(2.8,.1,4.4,.7,r'Leaf $Q=\{h\}$: $h$ is still absent'+'\n'+r'Two-terminal conductance $g_h$; output $\beta_h=1/g_h$')
-    for xy,xytext in [((2.4,2.9),(4.3,3.6)),((7.6,2.9),(5.7,3.6)),((4.1,.85),(2.4,1.7)),((5.9,.85),(7.6,1.7))]:
-        ax.annotate('',xy=xy,xytext=xytext,arrowprops={'arrowstyle':'->','color':'#185b70','lw':1.5})
-    ax.text(5,1.2,'Repeat balanced splits',ha='center',fontsize=10)
-    fig.tight_layout(pad=.4);fig.savefig(OUT/'shared_scheme.pdf');plt.close(fig)
+    with plt.rc_context({'mathtext.fontset':'stix', 'font.family':'DejaVu Sans'}):
+        fig, ax = plt.subplots(figsize=(8.2, 3.5))
+        ax.set(xlim=(0, 10), ylim=(0, 4.35))
+        ax.axis('off')
+
+        def box(x, y, w, h, label):
+            patch = FancyBboxPatch((x, y), w, h, boxstyle='round,pad=0.05',
+                                   facecolor='#f3f7fa', edgecolor='#185b70', linewidth=1.2)
+            ax.add_patch(patch)
+            ax.text(x+w/2, y+h/2, label, ha='center', va='center',
+                    linespacing=1.35, fontsize=11)
+
+        box(2.9, 3.38, 4.2, .75, r'Queries $Q=Q_1\,\dot\cup\,Q_2$'+'\n'+
+            r'Background $\mathcal{S}_Q$ with all edges of $Q$ absent')
+        for side, x in enumerate((.15, 5.15), start=1):
+            other = 3-side
+            child = rf'Add $Q_{other}$ and retain $U_{{Q_{side}}}$'
+            formula = rf'$\mathcal{{S}}_{{Q_{side}}}=\mathrm{{Sc}}_{{U_{{Q_{side}}}}}(\mathcal{{S}}_Q+L(Q_{other}))$'
+            box(x, 1.88, 4.65, .83, child+'\n'+formula)
+            h = 'h' if side == 1 else 'h\N{PRIME}'
+            box(x+.3, .13, 4.05, .78,
+                rf'A leaf for ${h}\in Q_{side}$'+'\n'+rf'$\beta_{{{h}}}=1/g_{{{h}}}$')
+            center=x+2.325
+            ax.annotate('',xy=(center,2.78),xytext=(4.45 if side==1 else 5.55,3.31),
+                        arrowprops=dict(arrowstyle='->',color='#185b70',lw=1.3))
+            ax.annotate('',xy=(center,.98),xytext=(center,1.8),
+                        arrowprops=dict(arrowstyle='->',color='#185b70',lw=1.3))
+        ax.text(5, 1.35, 'Repeat within each child', ha='center', fontsize=9)
+        fig.tight_layout(pad=.25)
+        fig.savefig(OUT/'shared_scheme.pdf')
+        plt.close(fig)
 
 
 def results():
